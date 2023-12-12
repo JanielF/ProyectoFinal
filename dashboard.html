@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Tablero Kanban</title>
+    <!-- Enlaces a los estilos y scripts de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Tablero Kanban</h1>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card-deck">
+                <!-- Columna "Por Hacer" -->
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Por Hacer
+                    </div>
+                    <div class="card-body" id="por-hacer">
+                        <!-- Contenedor para tarjetas en la columna "Por Hacer" -->
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#agregarTareaModal">Agregar Tarea</button>
+                        <button class="btn btn-success" onclick="moverTarea('por-hacer', 'en-progreso')">Mover a En Progreso</button>
+                    </div>
+                </div>
+
+                <!-- Columna "En Progreso" -->
+                <div class="card">
+                    <div class="card-header bg-warning">
+                        En Progreso
+                    </div>
+                    <div class="card-body" id="en-progreso">
+                        <!-- Contenedor para tarjetas en la columna "En Progreso" -->
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success" onclick="moverTarea('en-progreso', 'hecho')">Mover a Hecho</button>
+                    </div>
+                </div>
+
+                <!-- Columna "Hecho" -->
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Hecho
+                    </div>
+                    <div class="card-body" id="hecho">
+                        <!-- Contenedor para tarjetas en la columna "Hecho" -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para agregar tarea -->
+<div class="modal fade" id="agregarTareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Tarea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formularioTarea">
+                    <div class="form-group">
+                        <label for="tituloTarea">Título:</label>
+                        <input type="text" class="form-control" id="tituloTarea" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcionTarea">Descripción:</label>
+                        <textarea class="form-control" id="descripcionTarea" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="agregarTarea()">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enlaces a los scripts de Bootstrap y jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Función para agregar tareas
+    function agregarTarea() {
+        // Obtener valores del formulario
+        var titulo = document.getElementById("tituloTarea").value;
+        var descripcion = document.getElementById("descripcionTarea").value;
+
+        // Crear tarjeta de tarea
+        var tarjeta = `
+            <div class="card tarea">
+                <div class="card-body">
+                    <h5 class="card-title">${titulo}</h5>
+                    <p class="card-text">${descripcion}</p>
+                </div>
+            </div>
+        `;
+
+        // Agregar tarjeta a la columna "Por Hacer"
+        document.getElementById("por-hacer").innerHTML += tarjeta;
+
+        // Cerrar el modal
+        $('#agregarTareaModal').modal('hide');
+
+        // Limpiar el formulario
+        document.getElementById("formularioTarea").reset();
+    }
+
+    // Función para mover una tarea a la siguiente columna
+    function moverTarea(columnaActual, columnaSiguiente) {
+        // Obtener la primera tarjeta de la columna actual
+        var tarjeta = document.querySelector(`#${columnaActual} .tarea`);
+        
+        if (tarjeta) {
+            // Mover la tarjeta a la siguiente columna
+            document.getElementById(columnaSiguiente).appendChild(tarjeta);
+        }
+    }
+</script>
+
+</body>
+</html>

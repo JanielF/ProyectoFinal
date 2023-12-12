@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login y Registro con Bootstrap</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container login-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 login-form">
+            <h2 class="text-center">Iniciar Sesión</h2>
+            <form id="loginForm" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" class="form-control" id="username" placeholder="Ingrese su usuario">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" placeholder="Ingrese su contraseña">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                <p class="text-center mt-3">¿No tienes una cuenta? <a href="#" data-toggle="modal" data-target="#registroModal">Regístrate</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registro de Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formularioRegistro" onsubmit="return registrarUsuario()">
+                    <div class="form-group">
+                        <label for="newUsername">Nuevo Usuario:</label>
+                        <input type="text" class="form-control" id="newUsername" placeholder="Ingrese su nuevo usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">Nueva Contraseña:</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="Ingrese su nueva contraseña">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
