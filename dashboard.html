@@ -86,6 +86,56 @@
     </div>
 </div>
 
+<!-- Modal de Edición de Tarea -->
+<div class="modal fade" id="editarTareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Tarea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formularioEditarTarea" onsubmit="return editarTarea()">
+                    <div class="form-group">
+                        <label for="editarTituloTarea">Título:</label>
+                        <input type="text" class="form-control" id="editarTituloTarea">
+                    </div>
+                    <div class="form-group">
+                        <label for="editarDescripcionTarea">Descripción:</label>
+                        <textarea class="form-control" id="editarDescripcionTarea" rows="3"></textarea>
+                    </div>
+                    <input type="hidden" id="tareaIdEditar"> <!-- Campo oculto para almacenar el ID de la tarea -->
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Eliminación de Tarea -->
+<div class="modal fade" id="eliminarTareaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Tarea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas eliminar esta tarea?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" onclick="eliminarTarea()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="tareaIdEliminar"> <!-- Campo oculto para almacenar el ID de la tarea -->
+
 <!-- Enlaces a los scripts de Bootstrap y jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
@@ -94,37 +144,78 @@
 <script>
     // Función para agregar tareas
     function agregarTarea() {
-        // Obtener valores del formulario
         var titulo = document.getElementById("tituloTarea").value;
         var descripcion = document.getElementById("descripcionTarea").value;
 
-        // Crear tarjeta de tarea
         var tarjeta = `
-            <div class="card tarea">
+            <div class="card tarea" data-id="${Date.now()}">
                 <div class="card-body">
                     <h5 class="card-title">${titulo}</h5>
                     <p class="card-text">${descripcion}</p>
                 </div>
+                <div class="card-footer">
+                    <button class="btn btn-warning" onclick="abrirModalEditarTarea('${titulo}', '${descripcion}')">Editar</button>
+                    <button class="btn btn-danger" onclick="abrirModalEliminarTarea('${Date.now()}')">Eliminar</button>
+                </div>
             </div>
         `;
 
-        // Agregar tarjeta a la columna "Por Hacer"
         document.getElementById("por-hacer").innerHTML += tarjeta;
 
-        // Cerrar el modal
         $('#agregarTareaModal').modal('hide');
-
-        // Limpiar el formulario
         document.getElementById("formularioTarea").reset();
+    }
+
+    // Función para abrir el modal de edición de tarea
+    function abrirModalEditarTarea(titulo, descripcion) {
+        document.getElementById("editarTituloTarea").value = titulo;
+        document.getElementById("editarDescripcionTarea").value = descripcion;
+
+        $('#editarTareaModal').modal('show');
+    }
+
+    // Función para editar tarea
+    function editarTarea() {
+        var titulo = document.getElementById("editarTituloTarea").value;
+        var descripcion = document.getElementById("editarDescripcionTarea").value;
+        var tareaId = document.getElementById("tareaIdEditar").value;
+
+        var tarjeta = document.querySelector(`.tarea[data-id="${tareaId}"] .card-body`);
+        if (tarjeta) {
+            tarjeta.innerHTML = `
+                <h5 class="card-title">${titulo}</h5>
+                <p class="card-text">${descripcion}</p>
+            `;
+        }
+
+        $('#editarTareaModal').modal('hide');
+        return false;
+    }
+
+    // Función para abrir el modal de eliminación de tarea
+    function abrirModalEliminarTarea(tareaId) {
+        document.getElementById("tareaIdEliminar").value = tareaId;
+        $('#eliminarTareaModal').modal('show');
+    }
+
+    // Función para eliminar tarea
+    function eliminarTarea() {
+        var tareaId = document.getElementById("tareaIdEliminar").value;
+        var tarjeta = document.querySelector(`.tarea[data-id="${tareaId}"]`);
+
+        if (tarjeta) {
+            tarjeta.remove();
+        }
+
+        $('#eliminarTareaModal').modal('hide');
+        return false;
     }
 
     // Función para mover una tarea a la siguiente columna
     function moverTarea(columnaActual, columnaSiguiente) {
-        // Obtener la primera tarjeta de la columna actual
         var tarjeta = document.querySelector(`#${columnaActual} .tarea`);
         
         if (tarjeta) {
-            // Mover la tarjeta a la siguiente columna
             document.getElementById(columnaSiguiente).appendChild(tarjeta);
         }
     }

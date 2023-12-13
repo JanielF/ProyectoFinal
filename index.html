@@ -29,6 +29,13 @@
     </div>
 </div>
 
+    <!-- Navbar fijo en la esquina superior derecha -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light justify-content-end">
+        <span id="nombreUsuarioNavbar" class="navbar-text mr-3"></span>
+        <span id="rolUsuarioNavbar" class="navbar-text"></span>
+    </nav>
+
+
 <!-- Modal de Registro -->
 <div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -49,12 +56,24 @@
                         <label for="newPassword">Nueva Contraseña:</label>
                         <input type="password" class="form-control" id="newPassword" placeholder="Ingrese su nueva contraseña">
                     </div>
+                    <div class="form-group">
+                        <label for="rolUsuario">Seleccione su Rol:</label>
+                        <select class="form-control" id="rolUsuario">
+                            <option value="Usuario Estándar">Usuario Estándar</option>
+                            <option value="Administrador">Administrador</option>
+                            <option value="Editor">Editor</option>
+                            <!-- Agrega más opciones según sea necesario -->
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Registrar</button>
-                </form>
-            </div>
+                    <!-- Enlace para abrir el modal de creación de roles -->
+                    <a href="#" data-toggle="modal" data-target="#crearRolModal">Agregar Rol</a>
+                </form>            </div>
         </div>
     </div>
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
